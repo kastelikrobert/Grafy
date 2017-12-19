@@ -1,0 +1,86 @@
+﻿<Window x:Class="graphx.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="GraphTest" Height="350" Width="525"
+        xmlns:controls="http://schemas.panthernet.ru/graphx/"
+        xmlns:views="clr-namespace:graphx">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="controls:EdgeControl">
+                <Style.Triggers>
+                    <Trigger Property="controls:HighlightBehaviour.Highlighted" Value="True">
+                        <Setter Property="Background" Value="Gold"/>
+                        <Setter Property="ShowArrows" Value="False"/>
+                    </Trigger>
+                    <Trigger Property="controls:HighlightBehaviour.Highlighted" Value="False">
+                    </Trigger>
+                </Style.Triggers>
+
+                <Style.Setters>
+                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=Edge.Color}"/>
+                    <Setter Property="DashStyle" Value="Solid"/>
+                    <Setter Property="ShowArrows" Value="False"/>
+                </Style.Setters>
+            </Style>
+
+            <Style TargetType="controls:VertexControl">
+                <Style.Triggers>
+                    <Trigger Property="controls:HighlightBehaviour.Highlighted" Value="True">
+                        <Setter Property="Background" Value="Gold"/>
+                        <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=Vertex.Color}"/>-->
+                    </Trigger>
+                    <Trigger Property="controls:HighlightBehaviour.Highlighted" Value="False">
+                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=Vertex.Color}"/>
+                    </Trigger>
+                </Style.Triggers>
+
+                <Style.Setters>
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=Vertex.Color}"/>
+                </Style.Setters>
+            </Style>
+        </Grid.Resources>
+
+        <Button MinWidth="250" Grid.Column="0" Grid.Row="1" Click="BtnBFS_Click">BFS</Button>
+        <Button MinWidth="250" Grid.Column="0" Grid.Row="2" Click="BtnColorize_Click">Colorize</Button>
+
+        <Slider Grid.Column="0" Grid.Row="4" Name="sldrDelta" Minimum="0.05" Maximum="1" TickFrequency="0.05"  IsSnapToTickEnabled="True"></Slider>
+        <Label Grid.Column="0" Grid.Row="3" x:Name="myTextBox" Content="{Binding ElementName=sldrDelta,Path=Value}" ContentStringFormat="Delta: {0}"  />
+
+        <Slider Grid.Column="0" Grid.Row="6" Name="sldrVertices" Minimum="1" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True"/>
+        <Label Grid.Column="0" Grid.Row="5" x:Name="txtVertices" Content="{Binding ElementName=sldrVertices,Path=Value}" ContentStringFormat="Vertices: {0}"/>
+
+        <Button Grid.Column="0" Grid.Row="7" Click="BtnGenerate_Click">Generate Graph</Button>
+
+        <controls:ZoomControl x:Name="zoomctrl" Grid.Column="9" Grid.Row="9" Background="WhiteSmoke" BorderBrush="Black"  BorderThickness="2" Margin="5,5,5,5">
+            <views:GraphView x:Name="Area"/>
+        </controls:ZoomControl>
+    </Grid>
+</Window>
